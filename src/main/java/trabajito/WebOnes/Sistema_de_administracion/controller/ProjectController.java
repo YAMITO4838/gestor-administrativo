@@ -17,19 +17,36 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    // Endpoint 1 - Crear proyecto
+    // 1. Crear proyecto
     @PostMapping
     public Project createProject(@RequestBody Project project) {
         return projectService.saveProject(project);
     }
 
-    // Endpoint 2 - Listar proyectos
+    // 2. Listar proyectos
     @GetMapping
     public List<Project> getProjects() {
         return projectService.findAllProjects();
     }
 
-    // Endpoint 3 - Asignar tarea
+    
+
+    // 3. Buscar por ID
+    @GetMapping("/{id}")
+    public Project getProjectById(@PathVariable Long id) {
+        return projectService.findById(id).orElse(null);
+    }
+
+    // 4. Actualizar proyecto
+    @PutMapping("/{id}")
+    public Project updateProject(
+            @PathVariable Long id,
+            @RequestBody Project project) {
+
+        return projectService.updateProject(id, project);
+    }
+
+    // 5. Asignar tarea
     @PostMapping("/{id}/tasks")
     public Task assignTask(
             @PathVariable Long id,
@@ -38,12 +55,23 @@ public class ProjectController {
         return projectService.assignTaskToProject(id, task);
     }
 
-    // Endpoint 4 (Extra para mejor nota)
+    // 6. Obtener tareas de un proyecto
+    @GetMapping("/{id}/tasks")
+    public List<Task> getTasksByProject(@PathVariable Long id){
+        return projectService.getTasksByProject(id);
+    }
+
+        // 7. Actualizar estado tarea
     @PutMapping("/tasks/{taskId}")
     public Task updateTaskStatus(
             @PathVariable Long taskId,
             @RequestParam String status) {
 
         return projectService.updateTaskStatus(taskId, status);
+    }
+    //8.Eliminar proyecto
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable Long id){
+        projectService.deleteProject(id);
     }
 }
