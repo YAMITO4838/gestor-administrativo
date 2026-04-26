@@ -1,77 +1,50 @@
 package trabajito.WebOnes.Sistema_de_administracion.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trabajito.WebOnes.Sistema_de_administracion.model.Project;
-import trabajito.WebOnes.Sistema_de_administracion.model.Task;
 import trabajito.WebOnes.Sistema_de_administracion.service.ProjectService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ProjectController {
 
     private final ProjectService projectService;
 
-    public ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
-    // 1. Crear proyecto
-    @PostMapping
-    public Project createProject(@RequestBody Project project) {
-        return projectService.saveProject(project);
-    }
-
-    // 2. Listar proyectos
     @GetMapping
-    public List<Project> getProjects() {
+    public List<Project> getAll() {
         return projectService.findAllProjects();
     }
 
-    
+    @PostMapping
+    public Project create(@RequestBody Project project) {
+        return projectService.saveProject(project);
+    }
 
-    // 3. Buscar por ID
     @GetMapping("/{id}")
-    public Project getProjectById(@PathVariable Long id) {
-        return projectService.findById(id).orElse(null);
+    public ResponseEntity<Project> getById(@PathVariable Long id) {
+        return projectService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // 4. Actualizar proyecto
     @PutMapping("/{id}")
-    public Project updateProject(
-            @PathVariable Long id,
-            @RequestBody Project project) {
-
-        return projectService.updateProject(id, project);
+    public ResponseEntity<Project> update(@PathVariable Long id, @RequestBody Project project) {
+        try {
+            return ResponseEntity.ok(projectService.updateProject(id, project));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    // 5. Asignar tarea
-    @PostMapping("/{id}/tasks")
-    public Task assignTask(
-            @PathVariable Long id,
-            @RequestBody Task task) {
-
-        return projectService.assignTaskToProject(id, task);
-    }
-
-    // 6. Obtener tareas de un proyecto
-    @GetMapping("/{id}/tasks")
-    public List<Task> getTasksByProject(@PathVariable Long id){
-        return projectService.getTasksByProject(id);
-    }
-
-        // 7. Actualizar estado tarea
-    @PutMapping("/tasks/{taskId}")
-    public Task updateTaskStatus(
-            @PathVariable Long taskId,
-            @RequestParam String status) {
-
-        return projectService.updateTaskStatus(taskId, status);
-    }
-    //8.Eliminar proyecto
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         projectService.deleteProject(id);
+        return ResponseEntity.noContent().build();
     }
 }
