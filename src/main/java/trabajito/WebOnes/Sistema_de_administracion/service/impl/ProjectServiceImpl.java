@@ -35,7 +35,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findById(id).map(p -> {
             p.setName(details.getName());
             p.setDescription(details.getDescription());
-            p.setClientName(details.getClientName());
+            p.setClient(details.getClient());
             p.setLeaderName(details.getLeaderName());
             p.setStatus(details.getStatus());
             p.setPriority(details.getPriority());

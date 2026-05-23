@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebOnes_PM - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar bg-dark border-end border-secondary">
+            <div class="sidebar-header p-3">
+                <h4 class="mb-0 text-white">
+                    <i class="bi bi-gear-fill text-primary"></i> WebOnes_PM
+                </h4>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="sidebar-user p-3 border-bottom border-secondary">
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar bg-primary rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <span class="fw-bold">AM</span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-white">Alejandro Mora</h6>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="sidebar-nav p-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active bg-primary text-white rounded" href="#">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="proyectos.html">
+                            <i class="bi bi-folder me-2"></i> Proyectos
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="tablero.html">
+                            <i class="bi bi-kanban me-2"></i> Tablero
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="chat.html">
+                            <i class="bi bi-chat-dots me-2"></i> Chat interno
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="equipo.html">
+                            <i class="bi bi-people me-2"></i> Equipo
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="configuracion.html">
+                            <i class="bi bi-gear me-2"></i> Configuración
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content flex-grow-1">
+            <!-- Header -->
+            <header class="header bg-dark border-bottom border-secondary p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="search-bar flex-grow-1 mx-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-muted">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control bg-dark border-secondary text-light" 
+                                   placeholder="Buscar tareas, proyectos...">
+                        </div>
+                    </div>
+                    <div class="user-info d-flex align-items-center">
+                        <div class="user-avatar-small bg-primary rounded-circle d-flex align-items-center justify-content-center me-2">
+                            <span class="fw-bold small">AM</span>
+                        </div>
+                        <span class="text-white">Alejandro</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Content -->
+            <div class="dashboard-content p-4">
+                <!-- Dashboard Header -->
+                <div class="mb-4">
+                    <h2 class="text-white mb-1">Dashboard</h2>
+                    <p class="text-muted mb-0">Semana del 19 al 25 de mayo - Sprint #7</p>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card bg-dark border border-secondary rounded p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="text-muted mb-1">TAREAS COMPLETADAS</h6>
+                                    <h3 class="text-white mb-0">1</h3>
+                                    <small class="text-muted">de 8 esta semana</small>
+                                </div>
+                                <div class="stat-icon bg-success bg-opacity-25 rounded p-2">
+                                    <i class="bi bi-check-circle text-success"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card bg-dark border border-secondary rounded p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="text-muted mb-1">EN PROGRESO</h6>
+                                    <h3 class="text-white mb-0">3</h3>
+                                    <small class="text-muted">asignadas al equipo</small>
+                                </div>
+                                <div class="stat-icon bg-primary bg-opacity-25 rounded p-2">
+                                    <i class="bi bi-clock text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card bg-dark border border-secondary rounded p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="text-muted mb-1">EN REVISIÓN</h6>
+                                    <h3 class="text-white mb-0">2</h3>
+                                    <small class="text-muted">esperando aprobación</small>
+                                </div>
+                                <div class="stat-icon bg-warning bg-opacity-25 rounded p-2">
+                                    <i class="bi bi-eye text-warning"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3">
+                        <div class="stat-card bg-dark border border-secondary rounded p-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="text-muted mb-1">CRÍTICAS</h6>
+                                    <h3 class="text-white mb-0">2</h3>
+                                    <small class="text-muted">requieren atención</small>
+                                </div>
+                                <div class="stat-icon bg-danger bg-opacity-25 rounded p-2">
+                                    <i class="bi bi-exclamation-triangle text-danger"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts and Lists Row -->
+                <div class="row mb-4">
+                    <!-- Activity Chart -->
+                    <div class="col-md-6 mb-4">
+                        <div class="chart-card bg-dark border border-secondary rounded p-4">
+                            <h5 class="text-white mb-1">Actividad del equipo</h5>
+                            <p class="text-muted mb-3">Tareas cerradas y commits esta semana</p>
+                            <canvas id="activityChart" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="progress-card bg-dark border border-secondary rounded p-4 h-100">
+                            <h5 class="text-white mb-1">Progreso proyectos</h5>
+                            <p class="text-muted mb-3">% de completitud</p>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-light small">Portal Corporativo B...</span>
+                                    <span class="text-white small">72%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" style="width: 72%"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-light small">E-commerce Fresh...</span>
+                                    <span class="text-white small">45%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" style="width: 45%"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-light small">Landing Page TechS...</span>
+                                    <span class="text-white small">90%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-warning" style="width: 90%"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-light small">App Interna RRHH</span>
+                                    <span class="text-white small">100%</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Tasks and Team Row -->
+                <div class="row">
+                    <!-- Recent Tasks -->
+                    <div class="col-md-6 mb-4">
+                        <div class="tasks-card bg-dark border border-secondary rounded p-4">
+                            <h5 class="text-white mb-3">Tareas recientes</h5>
+                            
+                            <div class="task-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-danger me-2">Crítica</span>
+                                        <span class="text-light">Diseñar sistema de autenticación</span>
+                                    </div>
+                                    <div class="task-avatar bg-secondary rounded-circle d-flex align-items-center justify-content-center">
+                                        <span class="small fw-bold">VC</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="task-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-warning me-2">Alta</span>
+                                        <span class="text-light">Implementar API de pagos con Stripe</span>
+                                    </div>
+                                    <div class="task-avatar bg-secondary rounded-circle d-flex align-items-center justify-content-center">
+                                        <span class="small fw-bold">SR</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="task-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-info me-2">Media</span>
+                                        <span class="text-light">Optimizar rendimiento de imágenes</span>
+                                    </div>
+                                    <div class="task-avatar bg-secondary rounded-circle d-flex align-items-center justify-content-center">
+                                        <span class="small fw-bold">CT</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="task-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-secondary me-2">Baja</span>
+                                        <span class="text-light">Integrar Google Analytics 4</span>
+                                    </div>
+                                    <div class="task-avatar bg-secondary rounded-circle d-flex align-items-center justify-content-center">
+                                        <span class="small fw-bold">LM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="task-item p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-warning me-2">Alta</span>
+                                        <span class="text-light">Testing de accesibilidad WCAG 2.1</span>
+                                    </div>
+                                    <div class="task-avatar bg-secondary rounded-circle d-flex align-items-center justify-content-center">
+                                        <span class="small fw-bold">DV</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Team Online -->
+                    <div class="col-md-6 mb-4">
+                        <div class="team-card bg-dark border border-secondary rounded p-4">
+                            <h5 class="text-white mb-3">Equipo en línea</h5>
+                            
+                            <div class="team-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex align-items-center">
+                                    <div class="team-avatar bg-primary rounded-circle d-flex align-items-center justify-content-center me-3">
+                                        <span class="small fw-bold">AM</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-white mb-0">Alejandro Mora</h6>
+                                        <small class="text-muted">Admin</small>
+                                    </div>
+                                    <div class="online-indicator">
+                                        <i class="bi bi-circle-fill text-success small"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex align-items-center">
+                                    <div class="team-avatar bg-info rounded-circle d-flex align-items-center justify-content-center me-3">
+                                        <span class="small fw-bold">VC</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-white mb-0">Valentina Cruz</h6>
+                                        <small class="text-muted">Designer</small>
+                                    </div>
+                                    <div class="online-indicator">
+                                        <i class="bi bi-circle-fill text-success small"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex align-items-center">
+                                    <div class="team-avatar bg-warning rounded-circle d-flex align-items-center justify-content-center me-3">
+                                        <span class="small fw-bold">SR</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-white mb-0">Sebastián Ríos</h6>
+                                        <small class="text-muted">Developer</small>
+                                    </div>
+                                    <div class="online-indicator">
+                                        <i class="bi bi-circle-fill text-secondary small"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex align-items-center">
+                                    <div class="team-avatar bg-success rounded-circle d-flex align-items-center justify-content-center me-3">
+                                        <span class="small fw-bold">CT</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-white mb-0">Camilla Torres</h6>
+                                        <small class="text-muted">Developer</small>
+                                    </div>
+                                    <div class="online-indicator">
+                                        <i class="bi bi-circle-fill text-success small"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-item mb-3 p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex align-items-center">
+                                    <div class="team-avatar bg-danger rounded-circle d-flex align-items-center justify-content-center me-3">
+                                        <span class="small fw-bold">DV</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-white mb-0">Diego Vargas</h6>
+                                        <small class="text-muted">Designer</small>
+                                    </div>
+                                    <div class="online-indicator">
+                                        <i class="bi bi-circle-fill text-secondary small"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="team-item p-2 bg-dark border border-secondary rounded">
+                                <div class="d-flex align-items-center">
+                                    <div class="team-avatar bg-info rounded-circle d-flex align-items-center justify-content-center me-3">
+                                        <span class="small fw-bold">LM</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="text-white mb-0">Laura Méndez</h6>
+                                        <small class="text-muted">Developer</small>
+                                    </div>
+                                    <div class="online-indicator">
+                                        <i class="bi bi-circle-fill text-success small"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

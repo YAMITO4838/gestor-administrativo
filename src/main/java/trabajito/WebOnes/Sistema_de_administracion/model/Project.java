@@ -1,6 +1,7 @@
 package trabajito.WebOnes.Sistema_de_administracion.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDate;
 import java.util.List;
 import jakarta.persistence.*;
@@ -15,7 +16,11 @@ public class Project {
     private String name;
     private String description;
     private String leaderName;
-    private String clientName;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    @JsonBackReference
+    private Client client;
     private LocalDate startDate;
     private LocalDate endDate;
     private String status;
@@ -64,12 +69,12 @@ private List<Task> tasks;
         this.leaderName = leaderName;
     }
 
-    public String getClientName() {
-        return clientName;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public LocalDate getStartDate() {

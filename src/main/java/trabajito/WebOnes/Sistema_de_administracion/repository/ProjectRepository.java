@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    List<Project> findByClientName(String clientName);
+    List<Project> findByClientId(Long clientId);
     List<Project> findByLeaderName(String leaderName);
 }

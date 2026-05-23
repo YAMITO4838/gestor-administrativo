@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebOnes_PM - Chat interno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="d-flex">
+        <div class="sidebar bg-dark border-end border-secondary">
+            <div class="sidebar-header p-3">
+                <h4 class="mb-0 text-white">
+                    <i class="bi bi-gear-fill text-primary"></i> WebOnes_PM
+                </h4>
+            </div>
+            <div class="sidebar-user p-3 border-bottom border-secondary">
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar bg-success rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <span class="fw-bold">AM</span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-white">Alejandro Mora</h6>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-nav p-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="index.html">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="proyectos.html">
+                            <i class="bi bi-folder me-2"></i> Proyectos
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="tablero.html">
+                            <i class="bi bi-kanban me-2"></i> Tablero
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active bg-success text-white rounded" href="chat.html">
+                            <i class="bi bi-chat-dots me-2"></i> Chat interno
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="equipo.html">
+                            <i class="bi bi-people me-2"></i> Equipo
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="configuracion.html">
+                            <i class="bi bi-gear me-2"></i> Configuración
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content flex-grow-1">
+            <header class="header bg-dark border-bottom border-secondary p-3">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                    <div class="search-bar flex-grow-1">
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-muted">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control bg-dark border-secondary text-light" placeholder="Buscar tareas, proyectos...">
+                        </div>
+                    </div>
+                    <div class="user-info d-flex align-items-center">
+                        <div class="user-avatar-small bg-success rounded-circle d-flex align-items-center justify-content-center me-2">
+                            <span class="fw-bold small">AM</span>
+                        </div>
+                        <span class="text-white">Alejandro</span>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content p-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+                    <div>
+                        <h2 class="text-white mb-1">Chat interno</h2>
+                        <p class="text-muted mb-0">Comunicación por canales y mensajes directos</p>
+                    </div>
+                    <button class="btn btn-success px-4 py-2">Nuevo mensaje</button>
+                </div>
+                <div class="chat-layout row g-4">
+                    <div class="col-12 col-xl-4">
+                        <div class="chat-sidebar bg-dark border border-secondary rounded p-3 h-100">
+                            <div class="chat-section mb-4">
+                                <h6 class="text-white text-uppercase small mb-3">Canales</h6>
+                                <div class="chat-item active-chat-item mb-2"># general</div>
+                                <div class="chat-item mb-2"># desarrollo</div>
+                                <div class="chat-item mb-2"># diseño</div>
+                                <div class="chat-item mb-2"># devops</div>
+                                <div class="chat-item mb-2"># clientes</div>
+                            </div>
+                            <div class="chat-section">
+                                <h6 class="text-white text-uppercase small mb-3">Directos</h6>
+                                <div class="chat-direct mb-2 d-flex align-items-center gap-2">
+                                    <span class="status-dot bg-success"></span>
+                                    <span>Valentina</span>
+                                </div>
+                                <div class="chat-direct mb-2 d-flex align-items-center gap-2">
+                                    <span class="status-dot bg-secondary"></span>
+                                    <span>Sebastián</span>
+                                </div>
+                                <div class="chat-direct mb-2 d-flex align-items-center gap-2">
+                                    <span class="status-dot bg-success"></span>
+                                    <span>Camila</span>
+                                </div>
+                                <div class="chat-direct mb-2 d-flex align-items-center gap-2">
+                                    <span class="status-dot bg-secondary"></span>
+                                    <span>Diego</span>
+                                </div>
+                                <div class="chat-direct d-flex align-items-center gap-2">
+                                    <span class="status-dot bg-success"></span>
+                                    <span>Laura</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-8">
+                        <div class="chat-panel bg-dark border border-secondary rounded p-4 d-flex flex-column h-100">
+                            <div class="chat-room-header d-flex justify-content-between align-items-center mb-4">
+                                <div>
+                                    <span class="text-muted small text-uppercase"># desarrollo</span>
+                                    <h5 class="text-white mb-0">desarrollo</h5>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="project-member bg-success">SR</span>
+                                    <span class="project-member bg-success">CT</span>
+                                </div>
+                            </div>
+                            <div class="chat-messages flex-grow-1 mb-4">
+                                <div class="message-row">
+                                    <div class="message-avatar bg-success rounded-circle d-flex align-items-center justify-content-center">SR</div>
+                                    <div class="message-bubble ms-3">
+                                        <div class="message-header d-flex align-items-center gap-2 mb-2">
+                                            <span class="text-success fw-semibold">Sebastián</span>
+                                            <small class="text-muted">09:41</small>
+                                        </div>
+                                        <p class="mb-0">La migración de la DB va al 60%. Tuve que ajustar los índices.</p>
+                                    </div>
+                                </div>
+                                <div class="message-row message-received">
+                                    <div class="message-avatar bg-info rounded-circle d-flex align-items-center justify-content-center">CT</div>
+                                    <div class="message-bubble ms-3">
+                                        <div class="message-header d-flex align-items-center gap-2 mb-2">
+                                            <span class="text-info fw-semibold">Camila</span>
+                                            <small class="text-muted">09:43</small>
+                                        </div>
+                                        <p class="mb-0">@Sebastián ¿necesitas acceso al schema de producción?</p>
+                                    </div>
+                                </div>
+                                <div class="message-row">
+                                    <div class="message-avatar bg-success rounded-circle d-flex align-items-center justify-content-center">SR</div>
+                                    <div class="message-bubble ms-3">
+                                        <div class="message-header d-flex align-items-center gap-2 mb-2">
+                                            <span class="text-success fw-semibold">Sebastián</span>
+                                            <small class="text-muted">09:44</small>
+                                        </div>
+                                        <p class="mb-0">Sería ideal, gracias.</p>
+                                    </div>
+                                </div>
+                                <div class="message-row message-received">
+                                    <div class="message-avatar bg-success rounded-circle d-flex align-items-center justify-content-center">LM</div>
+                                    <div class="message-bubble ms-3">
+                                        <div class="message-header d-flex align-items-center gap-2 mb-2">
+                                            <span class="text-success fw-semibold">Laura</span>
+                                            <small class="text-muted">10:28</small>
+                                        </div>
+                                        <p class="mb-0">GA4 integrado en staging. Probando eventos personalizados.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form class="chat-input d-flex gap-2 align-items-center">
+                                <input type="text" class="form-control bg-dark border-secondary text-light" placeholder="Mensaje en #desarrollo...">
+                                <button type="submit" class="btn btn-success px-4 py-2"><i class="bi bi-send-fill"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

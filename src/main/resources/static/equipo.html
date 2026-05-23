@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebOnes_PM - Equipo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="bg-dark text-light">
+    <div class="d-flex">
+        <div class="sidebar bg-dark border-end border-secondary">
+            <div class="sidebar-header p-3">
+                <h4 class="mb-0 text-white">
+                    <i class="bi bi-gear-fill text-primary"></i> WebOnes_PM
+                </h4>
+            </div>
+            <div class="sidebar-user p-3 border-bottom border-secondary">
+                <div class="d-flex align-items-center">
+                    <div class="user-avatar bg-success rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <span class="fw-bold">AM</span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 text-white">Alejandro Mora</h6>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-nav p-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="index.html">
+                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="proyectos.html">
+                            <i class="bi bi-folder me-2"></i> Proyectos
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="tablero.html">
+                            <i class="bi bi-kanban me-2"></i> Tablero
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="chat.html">
+                            <i class="bi bi-chat-dots me-2"></i> Chat interno
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active bg-success text-white rounded" href="equipo.html">
+                            <i class="bi bi-people me-2"></i> Equipo
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-light hover-bg-secondary rounded" href="configuracion.html">
+                            <i class="bi bi-gear me-2"></i> Configuración
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content flex-grow-1">
+            <header class="header bg-dark border-bottom border-secondary p-3">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                    <div>
+                        <h2 class="text-white mb-1">Equipo & Permisos</h2>
+                        <p class="text-muted mb-0">6 miembros · Control de acceso por rol</p>
+                    </div>
+                    <button class="btn btn-success px-4 py-2">Invitar miembro</button>
+                </div>
+            </header>
+            <div class="dashboard-content p-4">
+                <div class="row g-4">
+                    <div class="col-12 col-xl-8">
+                        <div class="member-list bg-dark border border-secondary rounded p-3">
+                            <div class="member-card d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded border border-secondary">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="member-avatar bg-success rounded-circle d-flex align-items-center justify-content-center text-white">AM</div>
+                                    <div>
+                                        <h5 class="text-white mb-1">Alejandro Mora</h5>
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            <span class="member-role-badge">Admin</span>
+                                            <span class="text-success small">en línea</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">0 tareas</small>
+                                </div>
+                            </div>
+                            <div class="member-card d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded border border-secondary">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="member-avatar bg-primary rounded-circle d-flex align-items-center justify-content-center text-white">VC</div>
+                                    <div>
+                                        <h5 class="text-white mb-1">Valentina Cruz</h5>
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            <span class="member-role-badge member-role-designer">Designer</span>
+                                            <span class="text-success small">en línea</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">2 tareas</small>
+                                </div>
+                            </div>
+                            <div class="member-card d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded border border-secondary">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="member-avatar bg-warning rounded-circle d-flex align-items-center justify-content-center text-white">SR</div>
+                                    <div>
+                                        <h5 class="text-white mb-1">Sebastián Ríos</h5>
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            <span class="member-role-badge member-role-developer">Developer</span>
+                                            <span class="text-secondary small">offline</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">2 tareas</small>
+                                </div>
+                            </div>
+                            <div class="member-card d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded border border-secondary">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="member-avatar bg-success rounded-circle d-flex align-items-center justify-content-center text-white">CT</div>
+                                    <div>
+                                        <h5 class="text-white mb-1">Camila Torres</h5>
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            <span class="member-role-badge member-role-developer">Developer</span>
+                                            <span class="text-success small">en línea</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">2 tareas</small>
+                                </div>
+                            </div>
+                            <div class="member-card d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded border border-secondary">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="member-avatar bg-danger rounded-circle d-flex align-items-center justify-content-center text-white">DV</div>
+                                    <div>
+                                        <h5 class="text-white mb-1">Diego Vargas</h5>
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            <span class="member-role-badge member-role-designer">Designer</span>
+                                            <span class="text-secondary small">offline</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">1 tareas</small>
+                                </div>
+                            </div>
+                            <div class="member-card d-flex justify-content-between align-items-center p-3 bg-dark rounded border border-secondary">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="member-avatar bg-info rounded-circle d-flex align-items-center justify-content-center text-white">LM</div>
+                                    <div>
+                                        <h5 class="text-white mb-1">Laura Méndez</h5>
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            <span class="member-role-badge member-role-developer">Developer</span>
+                                            <span class="text-success small">en línea</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">1 tareas</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-4">
+                        <div class="permissions-panel bg-dark border border-secondary rounded p-3 h-100 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-4">
+                                <div>
+                                    <h6 class="text-white mb-1">Permisos de acceso</h6>
+                                    <p class="text-muted mb-0">Alejandro Mora</p>
+                                </div>
+                                <div class="member-avatar bg-success rounded-circle d-flex align-items-center justify-content-center text-white">AM</div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Dashboard</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Tablero</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Chat</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Gestión de equipo</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Configuración</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">API keys</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Facturación</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Todos los proyectos</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Proyectos asignados</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3 mb-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">API (lectura)</div>
+                                </div>
+                            </div>
+                            <div class="permission-item d-flex align-items-center gap-3">
+                                <i class="bi bi-lock-fill text-success"></i>
+                                <div>
+                                    <div class="text-white">Assets de diseño</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="permissions-table-card bg-dark border border-secondary rounded p-3 mt-4">
+                    <h6 class="text-white mb-3">Matriz de roles y permisos</h6>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-borderless align-middle mb-0 permissions-table">
+                            <thead>
+                                <tr>
+                                    <th>Módulo</th>
+                                    <th class="text-center">Admin</th>
+                                    <th class="text-center">Developer</th>
+                                    <th class="text-center">Designer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dashboard</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-success">✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Tablero</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-success">✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Chat</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-success">✔</td>
+                                </tr>
+                                <tr>
+                                    <td>Gestión de equipo</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-secondary">–</td>
+                                    <td class="text-center text-secondary">–</td>
+                                </tr>
+                                <tr>
+                                    <td>Configuración</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-secondary">–</td>
+                                    <td class="text-center text-secondary">–</td>
+                                </tr>
+                                <tr>
+                                    <td>API keys</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-secondary">–</td>
+                                    <td class="text-center text-secondary">–</td>
+                                </tr>
+                                <tr>
+                                    <td>Facturación</td>
+                                    <td class="text-center text-success">✔</td>
+                                    <td class="text-center text-secondary">–</td>
+                                    <td class="text-center text-secondary">–</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
