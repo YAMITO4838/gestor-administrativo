@@ -1,14 +1,10 @@
 package trabajito.WebOnes.Sistema_de_administracion.model;
 
-
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-
-
 
 @Entity
 
@@ -16,15 +12,11 @@ import java.time.LocalDate;
 
 public class Task {
 
-
-
     @Id
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-
-
 
     @ManyToOne(fetch = FetchType.LAZY)
 
@@ -34,13 +26,9 @@ public class Task {
 
     private Project project;
 
-
-
     private String title;
 
     private String description;
-
-
 
     @ManyToOne
 
@@ -48,25 +36,19 @@ public class Task {
 
     private User assignee;
 
-
-
     @Enumerated(EnumType.STRING)
 
     private TaskStatus status;
-
-
 
     private String priority;
 
     private LocalDate dueDate;
 
+    public Task() {
+    }
 
-
-    public Task() {}
-
-
-
-    public Task(Project project, String title, String description, User assignee, TaskStatus status, String priority, LocalDate dueDate) {
+    public Task(Project project, String title, String description, User assignee, TaskStatus status, String priority,
+            LocalDate dueDate) {
 
         this.project = project;
 
@@ -84,8 +66,6 @@ public class Task {
 
     }
 
-
-
     // Getters y Setters
 
     public Long getId() {
@@ -94,15 +74,11 @@ public class Task {
 
     }
 
-
-
     public void setId(Long id) {
 
         this.id = id;
 
     }
-
-
 
     public Project getProject() {
 
@@ -110,15 +86,11 @@ public class Task {
 
     }
 
-
-
     public void setProject(Project project) {
 
         this.project = project;
 
     }
-
-
 
     public String getTitle() {
 
@@ -126,15 +98,11 @@ public class Task {
 
     }
 
-
-
     public void setTitle(String title) {
 
         this.title = title;
 
     }
-
-
 
     public String getDescription() {
 
@@ -142,15 +110,11 @@ public class Task {
 
     }
 
-
-
     public void setDescription(String description) {
 
         this.description = description;
 
     }
-
-
 
     public User getAssignee() {
 
@@ -158,15 +122,11 @@ public class Task {
 
     }
 
-
-
     public void setAssignee(User assignee) {
 
         this.assignee = assignee;
 
     }
-
-
 
     public TaskStatus getStatus() {
 
@@ -174,15 +134,11 @@ public class Task {
 
     }
 
-
-
     public void setStatus(TaskStatus status) {
 
         this.status = status;
 
     }
-
-
 
     public String getPriority() {
 
@@ -190,23 +146,17 @@ public class Task {
 
     }
 
-
-
     public void setPriority(String priority) {
 
         this.priority = priority;
 
     }
 
-
-
     public LocalDate getDueDate() {
 
         return dueDate;
 
     }
-
-
 
     public void setDueDate(LocalDate dueDate) {
 

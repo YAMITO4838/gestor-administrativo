@@ -2,6 +2,7 @@ package trabajito.WebOnes.Sistema_de_administracion.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import trabajito.WebOnes.Sistema_de_administracion.model.User;
 import java.time.LocalDate;
 import java.util.List;
 import jakarta.persistence.*;
@@ -36,7 +37,15 @@ public class Project {
         fetch = FetchType.EAGER
     )
     @JsonManagedReference
-private List<Task> tasks;
+    private List<Task> tasks;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "project_members",
+        joinColumns = @JoinColumn(name = "project_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> members;
 
     public Project(){}
 
@@ -139,5 +148,13 @@ private List<Task> tasks;
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }

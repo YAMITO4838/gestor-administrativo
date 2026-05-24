@@ -33,6 +33,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client updateClient(Long id, Client details) {
         return clientRepository.findById(id).map(client -> {
+            client.setRuc(details.getRuc());
             client.setRazonSocial(details.getRazonSocial());
             client.setContactoPrincipal(details.getContactoPrincipal());
             client.setCorreoContacto(details.getCorreoContacto());
