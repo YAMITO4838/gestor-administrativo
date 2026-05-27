@@ -30,8 +30,19 @@ public class TaskController {
         return taskService.updateTaskStatus(id, status);
     }
 
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.updateTask(id, task);
+    }
+
     @PatchMapping("/{id}/assign/{userId}")
     public Task assignUser(@PathVariable Long id, @PathVariable Long userId) {
         return taskService.assignTaskToUser(id, userId);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
     }
 }

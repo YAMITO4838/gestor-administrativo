@@ -12,6 +12,8 @@ public interface TaskService {
     List<Task> getTasksByProjectId(Long projectId);
     
     Optional<Task> findTaskById(Long id);
+
+    Task updateTask(Long taskId, Task taskDetails);
     
     // Actualizar el estado (PENDING, IN_PROGRESS, COMPLETED)
     Task updateTaskStatus(Long taskId, TaskStatus status);

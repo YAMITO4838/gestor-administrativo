@@ -1,57 +1,119 @@
 package trabajito.WebOnes.Sistema_de_administracion.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import trabajito.WebOnes.Sistema_de_administracion.model.User;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.*;
 
 @Entity
+@Table(name = "projects")
 public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+
+    @Column(nullable = false, length = 150)
     private String name;
+
+    @Column(length = 1000)
     private String description;
+
+    @Column(length = 120)
     private String leaderName;
-    
+
+    @Column(length = 150)
+    private String clientName;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "client_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Client client;
+
     private LocalDate startDate;
     private LocalDate endDate;
-    private String status;
-    private String priority;
-    private Double budget;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
 
-    @OneToMany(
-        mappedBy = "project",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true,
-        fetch = FetchType.EAGER
-    )
+    @Column(length = 50)
+    private String status;
+
+    @Column(length = 50)
+    private String priority;
+
+    private Double budget;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "project_members",
-        joinColumns = @JoinColumn(name = "project_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
+            name = "project_members",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> members;
+    @JsonIgnoreProperties({"password", "hibernateLazyInitializer", "handler"})
+    private List<User> members = new ArrayList<>();
 
-    public Project(){}
+    public Project() {
+    }
 
-    // Getters y Setters
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        createdAt = now;
+        updatedAt = now;
+        syncTasks();
+        syncClientName();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = LocalDateTime.now();
+        syncTasks();
+        syncClientName();
+    }
+
+    private void syncTasks() {
+        if (tasks != null) {
+            tasks.forEach(task -> task.setProject(this));
+        }
+    }
+
+    private void syncClientName() {
+        if (clientName == null && client != null) {
+            clientName = client.getRazonSocial();
+        }
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -76,6 +138,14 @@ public class Project {
 
     public void setLeaderName(String leaderName) {
         this.leaderName = leaderName;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public Client getClient() {
@@ -126,19 +196,19 @@ public class Project {
         this.budget = budget;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

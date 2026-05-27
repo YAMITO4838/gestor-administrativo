@@ -24,6 +24,9 @@ public class ProjectServiceImpl implements ProjectService {
         if (project.getMembers() != null && !project.getMembers().isEmpty()) {
             project.setMembers(resolveMembers(project.getMembers()));
         }
+        if (project.getTasks() != null) {
+            project.getTasks().forEach(task -> task.setProject(project));
+        }
         return projectRepository.save(project);
     }
 
@@ -43,7 +46,9 @@ public class ProjectServiceImpl implements ProjectService {
             p.setName(details.getName());
             p.setDescription(details.getDescription());
             p.setClient(details.getClient());
+            p.setClientName(details.getClientName());
             p.setLeaderName(details.getLeaderName());
+            p.setStartDate(details.getStartDate());
             p.setStatus(details.getStatus());
             p.setPriority(details.getPriority());
             p.setBudget(details.getBudget());
@@ -57,6 +62,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteProject(Long id) {
+        if (!projectRepository.existsById(id)) {
+            throw new RuntimeException("Proyecto no encontrado con id: " + id);
+        }
         projectRepository.deleteById(id);
     }
 

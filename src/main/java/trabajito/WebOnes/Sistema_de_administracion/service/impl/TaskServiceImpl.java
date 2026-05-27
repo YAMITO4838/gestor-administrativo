@@ -24,7 +24,9 @@ public class TaskServiceImpl implements TaskService {
     public Task createTaskForProject(Long projectId, Task task) {
         return projectRepository.findById(projectId).map(project -> {
             task.setProject(project);
-            if (task.getStatus() == null) task.setStatus(TaskStatus.PENDING);
+            if (task.getStatus() == null) {
+                task.setStatus(TaskStatus.PENDING);
+            }
             return taskRepository.save(task);
         }).orElseThrow(() -> new RuntimeException("No se puede crear tarea: Proyecto no encontrado"));
     }
@@ -40,11 +42,28 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task updateTask(Long taskId, Task details) {
+        return taskRepository.findById(taskId).map(task -> {
+            task.setTitle(details.getTitle());
+            task.setDescription(details.getDescription());
+            task.setAssignedTo(details.getAssignedTo());
+            task.setStatus(details.getStatus());
+            task.setPriority(details.getPriority());
+            task.setStartDate(details.getStartDate());
+            task.setDueDate(details.getDueDate());
+            if (details.getAssignee() != null) {
+                task.setAssignee(details.getAssignee());
+            }
+            return taskRepository.save(task);
+        }).orElseThrow(() -> new RuntimeException("Tarea no encontrada con id: " + taskId));
+    }
+
+    @Override
     public Task updateTaskStatus(Long taskId, TaskStatus status) {
         return taskRepository.findById(taskId).map(task -> {
             task.setStatus(status);
             return taskRepository.save(task);
-        }).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
+        }).orElseThrow(() -> new RuntimeException("Tarea no encontrada con id: " + taskId));
     }
 
     @Override
@@ -54,12 +73,20 @@ public class TaskServiceImpl implements TaskService {
         
         return userRepository.findById(userId).map(user -> {
             task.setAssignee(user);
+            if (user.getFullName() != null && !user.getFullName().isBlank()) {
+                task.setAssignedTo(user.getFullName());
+            } else {
+                task.setAssignedTo(user.getUsername());
+            }
             return taskRepository.save(task);
-        }).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        }).orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + userId));
     }
 
     @Override
     public void deleteTask(Long id) {
+        if (!taskRepository.existsById(id)) {
+            throw new RuntimeException("Tarea no encontrada con id: " + id);
+        }
         taskRepository.deleteById(id);
     }
 }
