@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import {
+  AlertTriangle,
+  IdCard,
+  LockKeyhole,
+  Mail,
+  ShieldCheck,
+  UserPlus,
+  UserRound,
+} from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { authService } from '../../services/authService';
 import Spinner from '../../components/common/Spinner';
@@ -10,12 +19,12 @@ import Spinner from '../../components/common/Spinner';
 const registerSchema = yup.object({
   username: yup.string().min(3).max(80).required('El nombre de usuario es requerido'),
   fullName: yup.string().optional().default(''),
-  email: yup.string().email('Email inválido').required('El email es requerido'),
-  password: yup.string().min(6, 'Mínimo 6 caracteres').required('La contraseña es requerida'),
+  email: yup.string().email('Email invalido').required('El email es requerido'),
+  password: yup.string().min(6, 'Minimo 6 caracteres').required('La contrasena es requerida'),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password')], 'Las contraseñas no coinciden')
-    .required('Confirma tu contraseña'),
+    .oneOf([yup.ref('password')], 'Las contrasenas no coinciden')
+    .required('Confirma tu contrasena'),
   role: yup.string().optional().default('MEMBER'),
 });
 
@@ -64,73 +73,67 @@ const RegisterPage: React.FC = () => {
   };
 
   const inputFields = [
-    { id: 'reg-username', name: 'username' as const, label: 'Nombre de usuario', type: 'text', placeholder: 'johndoe', icon: '👤' },
-    { id: 'reg-fullname', name: 'fullName' as const, label: 'Nombre completo (opcional)', type: 'text', placeholder: 'John Doe', icon: '🪪' },
-    { id: 'reg-email', name: 'email' as const, label: 'Email', type: 'email', placeholder: 'john@ejemplo.com', icon: '✉️' },
-    { id: 'reg-password', name: 'password' as const, label: 'Contraseña', type: 'password', placeholder: '••••••••', icon: '🔒' },
-    { id: 'reg-confirm', name: 'confirmPassword' as const, label: 'Confirmar contraseña', type: 'password', placeholder: '••••••••', icon: '🔐' },
+    { id: 'reg-username', name: 'username' as const, label: 'Nombre de usuario', type: 'text', placeholder: 'johndoe', Icon: UserRound },
+    { id: 'reg-fullname', name: 'fullName' as const, label: 'Nombre completo', type: 'text', placeholder: 'John Doe', Icon: IdCard },
+    { id: 'reg-email', name: 'email' as const, label: 'Email', type: 'email', placeholder: 'john@ejemplo.com', Icon: Mail },
+    { id: 'reg-password', name: 'password' as const, label: 'Contrasena', type: 'password', placeholder: '********', Icon: LockKeyhole },
+    { id: 'reg-confirm', name: 'confirmPassword' as const, label: 'Confirmar contrasena', type: 'password', placeholder: '********', Icon: ShieldCheck },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 flex items-center justify-center p-4">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-xl mb-4">
-            <span className="text-white font-bold text-2xl">GA</span>
+    <div className="premium-page flex items-center justify-center p-4">
+      <div className="premium-shell w-full max-w-md py-8">
+        <div className="premium-animate mb-7 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg border border-[#b5965b]/60 bg-white shadow-premium">
+            <span className="bg-gradient-to-r from-[#b5965b] via-[#071d35] to-[#173b57] bg-clip-text text-3xl font-extrabold text-transparent">
+              GA
+            </span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Crear Cuenta</h1>
-          <p className="text-slate-400 mt-2 text-sm">Completa los campos para registrarte</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink">Crear Cuenta</h1>
+          <p className="mt-2 text-sm font-medium text-graphite">Completa los campos para registrarte</p>
         </div>
 
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-8">
+        <div className="premium-card premium-animate premium-delay-1 p-8 shadow-premium">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
             {error && (
-              <div className="flex items-start gap-3 bg-red-900/40 border border-red-700/50 rounded-xl p-4">
-                <span className="text-red-400 text-lg">⚠️</span>
-                <p className="text-red-300 text-sm">{error}</p>
+              <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+                <AlertTriangle size={19} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
+                <p className="text-sm leading-6">{error}</p>
               </div>
             )}
 
-            {inputFields.map((field) => (
+            {inputFields.map(({ Icon, ...field }) => (
               <div key={field.id} className="space-y-1.5">
-                <label htmlFor={field.id} className="block text-sm font-medium text-slate-300">
+                <label htmlFor={field.id} className="premium-label">
                   {field.label}
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">{field.icon}</span>
+                  <Icon
+                    size={18}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8a764e]"
+                    aria-hidden="true"
+                  />
                   <input
                     id={field.id}
                     type={field.type}
                     {...register(field.name)}
                     placeholder={field.placeholder}
-                    className={`w-full bg-slate-800/60 border ${
-                      errors[field.name] ? 'border-red-500' : 'border-slate-600'
-                    } rounded-xl px-4 py-3 pl-10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors`}
+                    className={`premium-field pl-11 ${errors[field.name] ? 'premium-field-error' : ''}`}
                   />
                 </div>
                 {errors[field.name] && (
-                  <p className="text-red-400 text-xs">{errors[field.name]?.message}</p>
+                  <p className="text-xs font-medium text-red-600">{errors[field.name]?.message}</p>
                 )}
               </div>
             ))}
 
-            {/* Role selector */}
             <div className="space-y-1.5">
-              <label htmlFor="reg-role" className="block text-sm font-medium text-slate-300">
+              <label htmlFor="reg-role" className="premium-label">
                 Rol
               </label>
-              <select
-                id="reg-role"
-                {...register('role')}
-                className="w-full bg-slate-800/60 border border-slate-600 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-              >
+              <select id="reg-role" {...register('role')} className="premium-field">
                 <option value="MEMBER">Miembro</option>
-                <option value="PROJECT_LEADER">Líder de Proyecto</option>
+                <option value="PROJECT_LEADER">Lider de Proyecto</option>
                 <option value="ADMIN">Administrador</option>
               </select>
             </div>
@@ -139,29 +142,32 @@ const RegisterPage: React.FC = () => {
               type="submit"
               disabled={isSubmitting}
               id="btn-register"
-              className="w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all duration-200 shadow-lg hover:shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="premium-button-primary w-full"
             >
               {isSubmitting ? (
                 <>
-                  <Spinner size="sm" />
-                  Registrando...
+                  <Spinner size="sm" className="border-white/40 border-t-white" />
+                  <span>Registrando...</span>
                 </>
               ) : (
-                'Crear Cuenta'
+                <>
+                  <UserPlus size={18} aria-hidden="true" />
+                  <span>Crear Cuenta</span>
+                </>
               )}
             </button>
           </form>
 
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 border-t border-slate-700" />
-            <span className="text-slate-500 text-xs">o</span>
-            <div className="flex-1 border-t border-slate-700" />
+          <div className="my-6 flex items-center gap-3">
+            <div className="flex-1 border-t border-stone-200" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-graphite">o</span>
+            <div className="flex-1 border-t border-stone-200" />
           </div>
 
-          <p className="text-center text-sm text-slate-400">
-            ¿Ya tienes cuenta?{' '}
-            <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
-              Inicia sesión
+          <p className="text-center text-sm text-graphite">
+            Ya tienes cuenta?{' '}
+            <Link to="/login" className="font-bold text-[#17486a] hover:text-[#6f5526]">
+              Inicia sesion
             </Link>
           </p>
         </div>

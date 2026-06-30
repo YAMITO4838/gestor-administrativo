@@ -12,7 +12,7 @@ const ProjectDetailPage = lazy(() => import('../pages/Projects/ProjectDetailPage
 const ClientsPage = lazy(() => import('../pages/Clients/ClientsPage'));
 
 const PageFallback = () => (
-  <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+  <div className="premium-page flex min-h-screen items-center justify-center">
     <Spinner size="lg" />
   </div>
 );

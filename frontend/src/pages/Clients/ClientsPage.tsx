@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
+import { AlertTriangle, Mail, Pencil, Phone, Plus, Search, Trash2, UserRound, UsersRound } from 'lucide-react';
 import Layout from '../../components/layout/Layout';
 import Modal from '../../components/common/Modal';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
@@ -19,7 +20,7 @@ const ClientsPage: React.FC = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const fetchClients = useCallback(async () => {
+  const fetchClients = async () => {
     setLoading(true);
     try {
       const data = await clientService.getAll();
@@ -27,9 +28,27 @@ const ClientsPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  useEffect(() => { fetchClients(); }, [fetchClients]);
+  useEffect(() => {
+    let active = true;
+
+    const loadInitialClients = async () => {
+      setLoading(true);
+      try {
+        const data = await clientService.getAll();
+        if (active) setClients(data);
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    loadInitialClients();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const filtered = clients.filter(
     (c) =>
@@ -38,9 +57,22 @@ const ClientsPage: React.FC = () => {
       (c.correoContacto || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const openCreate = () => { setEditingClient(undefined); setFormError(null); setIsFormOpen(true); };
-  const openEdit = (client: Client) => { setEditingClient(client); setFormError(null); setIsFormOpen(true); };
-  const openDelete = (id: number) => { setDeletingId(id); setIsDeleteOpen(true); };
+  const openCreate = () => {
+    setEditingClient(undefined);
+    setFormError(null);
+    setIsFormOpen(true);
+  };
+
+  const openEdit = (client: Client) => {
+    setEditingClient(client);
+    setFormError(null);
+    setIsFormOpen(true);
+  };
+
+  const openDelete = (id: number) => {
+    setDeletingId(id);
+    setIsDeleteOpen(true);
+  };
 
   const handleSubmit = async (data: Client) => {
     setFormError(null);
@@ -73,105 +105,99 @@ const ClientsPage: React.FC = () => {
 
   return (
     <Layout>
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div className="premium-animate mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold text-white">Clientes</h1>
-          <p className="text-slate-400 text-sm mt-1">{clients.length} clientes registrados</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.24em] text-[#8a764e]">CRM</p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-ink">Clientes</h1>
+          <p className="mt-2 text-sm font-medium text-graphite">{clients.length} clientes registrados</p>
         </div>
-        <button
-          onClick={openCreate}
-          id="btn-new-client"
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg hover:shadow-indigo-500/25"
-        >
-          + Nuevo Cliente
+        <button onClick={openCreate} id="btn-new-client" className="premium-button-primary">
+          <Plus size={18} aria-hidden="true" />
+          <span>Nuevo Cliente</span>
         </button>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-6">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+      <div className="premium-animate premium-delay-1 relative mb-6">
+        <Search
+          size={20}
+          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-graphite"
+          aria-hidden="true"
+        />
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Buscar por nombre, contacto o email..."
-          className="w-full bg-slate-900/60 border border-slate-700 rounded-xl px-4 py-3 pl-10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+          className="premium-field pl-11"
         />
       </div>
 
-      {/* Grid de cards */}
       {loading ? (
-        <div className="flex justify-center items-center h-48"><Spinner size="lg" /></div>
+        <div className="flex h-48 items-center justify-center">
+          <Spinner size="lg" />
+        </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-4xl mb-3">👥</p>
-          <p className="text-slate-400">{searchTerm ? 'Sin resultados' : 'No hay clientes aún'}</p>
+        <div className="premium-card premium-animate py-16 text-center">
+          <UsersRound size={42} className="mx-auto mb-4 text-[#8a764e]" aria-hidden="true" />
+          <p className="text-sm font-medium text-graphite">
+            {searchTerm ? 'Sin resultados' : 'No hay clientes aun'}
+          </p>
           {!searchTerm && (
-            <button onClick={openCreate} className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm font-medium">
-              + Crear el primero
+            <button onClick={openCreate} className="mt-4 font-bold text-[#17486a] hover:text-[#6f5526]">
+              Crear el primero
             </button>
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((client) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((client, index) => (
             <div
               key={client.id}
-              className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 hover:border-slate-600 transition-all hover:shadow-lg hover:shadow-slate-900/50 group"
+              className="premium-card-interactive premium-animate p-5"
+              style={{ animationDelay: `${index * 55}ms` }}
             >
-              {/* Card header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                    <span className="text-white font-bold text-sm uppercase">
-                      {client.razonSocial.charAt(0)}
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold text-sm leading-tight">{client.razonSocial}</h3>
-                    {client.ruc && (
-                      <p className="text-slate-500 text-xs mt-0.5">RUC: {client.ruc}</p>
-                    )}
-                  </div>
+              <div className="mb-5 flex items-start gap-3">
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg border border-[#b5965b]/40 bg-[#fbf7ed] text-[#8a764e] shadow-sm">
+                  <span className="text-sm font-extrabold uppercase">{client.razonSocial.charAt(0)}</span>
+                </div>
+                <div className="min-w-0">
+                  <h3 className="truncate text-base font-extrabold text-ink">{client.razonSocial}</h3>
+                  {client.ruc && <p className="mt-1 text-xs font-medium text-graphite">RUC: {client.ruc}</p>}
                 </div>
               </div>
 
-              {/* Contact info */}
-              <div className="space-y-2 text-sm mb-4">
+              <div className="mb-5 space-y-2 text-sm">
                 {client.contactoPrincipal && (
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <span>👤</span>
+                  <div className="flex items-center gap-2 text-graphite">
+                    <UserRound size={16} aria-hidden="true" />
                     <span className="truncate">{client.contactoPrincipal}</span>
                   </div>
                 )}
                 {client.correoContacto && (
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <span>✉️</span>
+                  <div className="flex items-center gap-2 text-graphite">
+                    <Mail size={16} aria-hidden="true" />
                     <span className="truncate">{client.correoContacto}</span>
                   </div>
                 )}
                 {client.telefono && (
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <span>📞</span>
+                  <div className="flex items-center gap-2 text-graphite">
+                    <Phone size={16} aria-hidden="true" />
                     <span>{client.telefono}</span>
                   </div>
                 )}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-2 pt-3 border-t border-slate-700/50">
-                <button
-                  onClick={() => openEdit(client)}
-                  className="flex-1 py-2 rounded-lg text-xs font-medium text-slate-300 border border-slate-600 hover:border-amber-500 hover:text-amber-400 transition-all"
-                >
-                  ✏️ Editar
+              <div className="flex gap-2 border-t border-stone-200 pt-4">
+                <button onClick={() => openEdit(client)} className="premium-button-secondary flex-1 px-3 py-2">
+                  <Pencil size={15} aria-hidden="true" />
+                  Editar
                 </button>
                 <button
                   onClick={() => openDelete(client.id!)}
-                  className="flex-1 py-2 rounded-lg text-xs font-medium text-slate-300 border border-slate-600 hover:border-red-500 hover:text-red-400 transition-all"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
                 >
-                  🗑️ Eliminar
+                  <Trash2 size={15} aria-hidden="true" />
+                  Eliminar
                 </button>
               </div>
             </div>
@@ -179,16 +205,15 @@ const ClientsPage: React.FC = () => {
         </div>
       )}
 
-      {/* Create/Edit Modal */}
       <Modal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
         title={editingClient ? 'Editar Cliente' : 'Nuevo Cliente'}
       >
         {formError && (
-          <div className="mb-4 flex items-start gap-3 bg-red-900/40 border border-red-700/50 rounded-xl p-3">
-            <span className="text-red-400">⚠️</span>
-            <p className="text-red-300 text-sm">{formError}</p>
+          <div className="mb-4 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-3 text-red-700">
+            <AlertTriangle size={18} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
+            <p className="text-sm">{formError}</p>
           </div>
         )}
         <ClientForm
@@ -198,12 +223,11 @@ const ClientsPage: React.FC = () => {
         />
       </Modal>
 
-      {/* Delete confirmation */}
       <ConfirmDialog
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={handleDelete}
-        message="¿Estás seguro de eliminar este cliente? Esta acción no se puede deshacer."
+        message="Estas seguro de eliminar este cliente? Esta accion no se puede deshacer."
         loading={deleteLoading}
       />
     </Layout>

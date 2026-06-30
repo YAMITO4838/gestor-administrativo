@@ -1,4 +1,5 @@
 import React from 'react';
+import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,27 +21,21 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
+      <div className="absolute inset-0 bg-ink/35 backdrop-blur-sm" onClick={onClose} />
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      {/* Panel */}
-      <div
-        className={`relative w-full ${sizeClasses[size]} bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col`}
+        className={`premium-card premium-animate relative flex max-h-[90vh] w-full ${sizeClasses[size]} flex-col overflow-hidden shadow-premium`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className="text-lg font-bold text-white">{title}</h2>
+        <div className="flex items-center justify-between border-b border-stone-200 p-6">
+          <h2 className="text-lg font-extrabold text-ink">{title}</h2>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white hover:bg-slate-700 rounded-lg p-1.5 transition-colors"
+            className="premium-icon-button"
+            aria-label="Cerrar modal"
           >
-            ✕
+            <X size={18} />
           </button>
         </div>
-        {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1">{children}</div>
+        <div className="flex-1 overflow-y-auto p-6">{children}</div>
       </div>
     </div>
   );

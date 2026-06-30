@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { AlertTriangle, Eye, EyeOff, LockKeyhole, LogIn, UserRound } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { authService } from '../../services/authService';
 import Spinner from '../../components/common/Spinner';
 
-// ─── Validation schema ──────────────────────────────────
 const loginSchema = yup.object({
   username: yup.string().required('El usuario o email es requerido'),
-  password: yup.string().min(4, 'Mínimo 4 caracteres').required('La contraseña es requerida'),
+  password: yup.string().min(4, 'Minimo 4 caracteres').required('La contrasena es requerida'),
 });
 
 type LoginFormData = yup.InferType<typeof loginSchema>;
@@ -40,124 +40,117 @@ const LoginPage: React.FC = () => {
       const axiosError = err as { response?: { data?: { message?: string } } };
       setError(
         axiosError.response?.data?.message ||
-          'Credenciales inválidas. Verifica tu usuario y contraseña.'
+          'Credenciales invalidas. Verifica tu usuario y contrasena.'
       );
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 flex items-center justify-center p-4">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative w-full max-w-md">
-        {/* Logo card */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-xl mb-4">
-            <span className="text-white font-bold text-2xl">GA</span>
+    <div className="premium-page flex items-center justify-center p-4">
+      <div className="premium-shell w-full max-w-md">
+        <div className="premium-animate mb-7 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg border border-[#b5965b]/60 bg-white shadow-premium">
+            <span className="bg-gradient-to-r from-[#b5965b] via-[#071d35] to-[#173b57] bg-clip-text text-3xl font-extrabold text-transparent">
+              GA
+            </span>
           </div>
-          <h1 className="text-3xl font-bold text-white">Gestor Administrativo</h1>
-          <p className="text-slate-400 mt-2 text-sm">Inicia sesión para continuar</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink">Gestor Administrativo</h1>
+          <p className="mt-2 text-sm font-medium text-graphite">Premium Login</p>
         </div>
 
-        {/* Login form card */}
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl p-8">
+        <div className="premium-card premium-animate premium-delay-1 p-8 shadow-premium">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-            {/* Error banner */}
             {error && (
-              <div className="flex items-start gap-3 bg-red-900/40 border border-red-700/50 rounded-xl p-4">
-                <span className="text-red-400 text-lg">⚠️</span>
-                <p className="text-red-300 text-sm">{error}</p>
+              <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+                <AlertTriangle size={19} className="mt-0.5 flex-shrink-0" aria-hidden="true" />
+                <p className="text-sm leading-6">{error}</p>
               </div>
             )}
 
-            {/* Username field */}
             <div className="space-y-1.5">
-              <label htmlFor="login-username" className="block text-sm font-medium text-slate-300">
+              <label htmlFor="login-username" className="premium-label">
                 Usuario o Email
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">👤</span>
+                <UserRound
+                  size={18}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8a764e]"
+                  aria-hidden="true"
+                />
                 <input
                   id="login-username"
                   type="text"
                   {...register('username')}
                   placeholder="usuario o email@ejemplo.com"
-                  className={`w-full bg-slate-800/60 border ${
-                    errors.username ? 'border-red-500' : 'border-slate-600'
-                  } rounded-xl px-4 py-3 pl-10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors`}
+                  className={`premium-field pl-11 ${errors.username ? 'premium-field-error' : ''}`}
                 />
               </div>
               {errors.username && (
-                <p className="text-red-400 text-xs">{errors.username.message}</p>
+                <p className="text-xs font-medium text-red-600">{errors.username.message}</p>
               )}
             </div>
 
-            {/* Password field */}
             <div className="space-y-1.5">
-              <label htmlFor="login-password" className="block text-sm font-medium text-slate-300">
-                Contraseña
+              <label htmlFor="login-password" className="premium-label">
+                Contrasena
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔒</span>
+                <LockKeyhole
+                  size={18}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8a764e]"
+                  aria-hidden="true"
+                />
                 <input
                   id="login-password"
                   type={showPassword ? 'text' : 'password'}
                   {...register('password')}
-                  placeholder="••••••••"
-                  className={`w-full bg-slate-800/60 border ${
-                    errors.password ? 'border-red-500' : 'border-slate-600'
-                  } rounded-xl px-4 py-3 pl-10 pr-12 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors`}
+                  placeholder="********"
+                  className={`premium-field pl-11 pr-12 ${errors.password ? 'premium-field-error' : ''}`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-graphite hover:bg-stone-100 hover:text-ink"
+                  aria-label={showPassword ? 'Ocultar contrasena' : 'Mostrar contrasena'}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-400 text-xs">{errors.password.message}</p>
+                <p className="text-xs font-medium text-red-600">{errors.password.message}</p>
               )}
             </div>
 
-            {/* Submit button */}
             <button
               type="submit"
               disabled={isSubmitting}
               id="btn-login"
-              className="w-full py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all duration-200 shadow-lg hover:shadow-indigo-500/25 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="premium-button-primary w-full"
             >
               {isSubmitting ? (
                 <>
-                  <Spinner size="sm" />
-                  Iniciando sesión...
+                  <Spinner size="sm" className="border-white/40 border-t-white" />
+                  <span>Iniciando sesion...</span>
                 </>
               ) : (
-                'Iniciar Sesión'
+                <>
+                  <LogIn size={18} aria-hidden="true" />
+                  <span>Iniciar Sesion</span>
+                </>
               )}
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 border-t border-slate-700" />
-            <span className="text-slate-500 text-xs">o</span>
-            <div className="flex-1 border-t border-slate-700" />
+          <div className="my-6 flex items-center gap-3">
+            <div className="flex-1 border-t border-stone-200" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-graphite">o</span>
+            <div className="flex-1 border-t border-stone-200" />
           </div>
 
-          {/* Register link */}
-          <p className="text-center text-sm text-slate-400">
-            ¿No tienes cuenta?{' '}
-            <Link
-              to="/register"
-              className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
-            >
-              Regístrate aquí
+          <p className="text-center text-sm text-graphite">
+            No tienes cuenta?{' '}
+            <Link to="/register" className="font-bold text-[#17486a] hover:text-[#6f5526]">
+              Registrate aqui
             </Link>
           </p>
         </div>

@@ -2,7 +2,8 @@ import React from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import type { Project, Client } from '../../types';
+import { Save, X } from 'lucide-react';
+import type { Client, Project } from '../../types';
 import Spinner from '../../components/common/Spinner';
 
 const schema = yup.object({
@@ -38,7 +39,7 @@ interface ProjectFormProps {
 }
 
 const fieldClass = (error?: boolean) =>
-  `w-full bg-slate-800/60 border ${error ? 'border-red-500' : 'border-slate-600'} rounded-xl px-4 py-2.5 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors`;
+  `premium-field ${error ? 'premium-field-error' : ''}`;
 
 const ProjectForm: React.FC<ProjectFormProps> = ({
   initialData,
@@ -87,42 +88,33 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4" noValidate>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Name */}
-        <div className="sm:col-span-2 space-y-1">
-          <label className="block text-sm font-medium text-slate-300">
-            Nombre del Proyecto <span className="text-red-400">*</span>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="space-y-1.5 sm:col-span-2">
+          <label className="premium-label">
+            Nombre del Proyecto <span className="text-red-500">*</span>
           </label>
-          <input
-            id="proj-name"
-            {...register('name')}
-            placeholder="Mi proyecto"
-            className={fieldClass(!!errors.name)}
-          />
-          {errors.name && <p className="text-red-400 text-xs">{errors.name.message}</p>}
+          <input id="proj-name" {...register('name')} placeholder="Mi proyecto" className={fieldClass(!!errors.name)} />
+          {errors.name && <p className="text-xs font-medium text-red-600">{errors.name.message}</p>}
         </div>
 
-        {/* Description */}
-        <div className="sm:col-span-2 space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Descripción</label>
+        <div className="space-y-1.5 sm:col-span-2">
+          <label className="premium-label">Descripcion</label>
           <textarea
             id="proj-desc"
             {...register('description')}
             rows={3}
-            placeholder="Descripción del proyecto..."
-            className={fieldClass(false) + ' resize-none'}
+            placeholder="Descripcion del proyecto..."
+            className={`${fieldClass(false)} resize-none`}
           />
         </div>
 
-        {/* Leader */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Líder</label>
-          <input id="proj-leader" {...register('leaderName')} placeholder="Nombre del líder" className={fieldClass(false)} />
+        <div className="space-y-1.5">
+          <label className="premium-label">Lider</label>
+          <input id="proj-leader" {...register('leaderName')} placeholder="Nombre del lider" className={fieldClass(false)} />
         </div>
 
-        {/* Client */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Cliente</label>
+        <div className="space-y-1.5">
+          <label className="premium-label">Cliente</label>
           <select id="proj-client" {...register('clientId', { valueAsNumber: true })} className={fieldClass(false)}>
             <option value="">Sin cliente</option>
             {clients.map((c) => (
@@ -133,21 +125,18 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
           </select>
         </div>
 
-        {/* Start date */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Fecha de Inicio</label>
+        <div className="space-y-1.5">
+          <label className="premium-label">Fecha de Inicio</label>
           <input id="proj-start" type="date" {...register('startDate')} className={fieldClass(false)} />
         </div>
 
-        {/* End date */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Fecha de Fin</label>
+        <div className="space-y-1.5">
+          <label className="premium-label">Fecha de Fin</label>
           <input id="proj-end" type="date" {...register('endDate')} className={fieldClass(false)} />
         </div>
 
-        {/* Status */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Estado</label>
+        <div className="space-y-1.5">
+          <label className="premium-label">Estado</label>
           <select id="proj-status" {...register('status')} className={fieldClass(false)}>
             <option value="">Sin estado</option>
             <option value="EN_PROGRESO">En Progreso</option>
@@ -157,21 +146,19 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
           </select>
         </div>
 
-        {/* Priority */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Prioridad</label>
+        <div className="space-y-1.5">
+          <label className="premium-label">Prioridad</label>
           <select id="proj-priority" {...register('priority')} className={fieldClass(false)}>
             <option value="">Sin prioridad</option>
             <option value="LOW">Baja</option>
             <option value="MEDIUM">Media</option>
             <option value="HIGH">Alta</option>
-            <option value="CRITICAL">Crítica</option>
+            <option value="CRITICAL">Critica</option>
           </select>
         </div>
 
-        {/* Budget */}
-        <div className="sm:col-span-2 space-y-1">
-          <label className="block text-sm font-medium text-slate-300">Presupuesto</label>
+        <div className="space-y-1.5 sm:col-span-2">
+          <label className="premium-label">Presupuesto</label>
           <input
             id="proj-budget"
             type="number"
@@ -183,29 +170,22 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-3 justify-end pt-2">
-        <button
-          type="button"
-          onClick={onCancel}
-          disabled={submitting}
-          className="px-5 py-2.5 rounded-xl text-sm text-slate-300 border border-slate-600 hover:bg-slate-700 transition-colors disabled:opacity-50"
-        >
+      <div className="flex justify-end gap-3 pt-2">
+        <button type="button" onClick={onCancel} disabled={submitting} className="premium-button-secondary">
+          <X size={16} aria-hidden="true" />
           Cancelar
         </button>
-        <button
-          type="submit"
-          disabled={submitting}
-          id="btn-save-project"
-          className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all disabled:opacity-60 flex items-center gap-2 shadow-lg"
-        >
+        <button type="submit" disabled={submitting} id="btn-save-project" className="premium-button-primary">
           {submitting ? (
             <>
-              <Spinner size="sm" />
-              Guardando...
+              <Spinner size="sm" className="border-white/40 border-t-white" />
+              <span>Guardando...</span>
             </>
           ) : (
-            initialData ? 'Actualizar' : 'Crear Proyecto'
+            <>
+              <Save size={16} aria-hidden="true" />
+              <span>{initialData ? 'Actualizar' : 'Crear Proyecto'}</span>
+            </>
           )}
         </button>
       </div>

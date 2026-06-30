@@ -1,10 +1,22 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import {
+  ArrowLeft,
+  CalendarDays,
+  CheckCircle2,
+  Pencil,
+  Plus,
+  SearchX,
+  Target,
+  Trash2,
+  UserRound,
+} from 'lucide-react';
 import Layout from '../../components/layout/Layout';
 import Modal from '../../components/common/Modal';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import Spinner from '../../components/common/Spinner';
-import Badge, { getStatusVariant, getStatusLabel, getPriorityVariant } from '../../components/common/Badge';
+import Badge from '../../components/common/Badge';
+import { getPriorityVariant, getStatusLabel, getStatusVariant } from '../../components/common/badgeUtils';
 import TaskForm from './TaskForm';
 import { projectService } from '../../services/projectService';
 import type { Project, Task } from '../../types';
@@ -23,7 +35,7 @@ const ProjectDetailPage: React.FC = () => {
   const [deletingTaskId, setDeletingTaskId] = useState<number | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const fetchProject = useCallback(async () => {
+  const fetchProject = async () => {
     setLoading(true);
     try {
       const [proj, taskList] = await Promise.all([
@@ -35,9 +47,33 @@ const ProjectDetailPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [projectId]);
+  };
 
-  useEffect(() => { fetchProject(); }, [fetchProject]);
+  useEffect(() => {
+    let active = true;
+
+    const loadInitialProject = async () => {
+      setLoading(true);
+      try {
+        const [proj, taskList] = await Promise.all([
+          projectService.getById(projectId),
+          projectService.getTasks(projectId),
+        ]);
+        if (active) {
+          setProject(proj);
+          setTasks(taskList);
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    loadInitialProject();
+
+    return () => {
+      active = false;
+    };
+  }, [projectId]);
 
   const handleTaskSubmit = async (data: Task) => {
     if (editingTask?.id) {
@@ -70,7 +106,9 @@ const ProjectDetailPage: React.FC = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="flex justify-center items-center h-64"><Spinner size="lg" /></div>
+        <div className="flex h-64 items-center justify-center">
+          <Spinner size="lg" />
+        </div>
       </Layout>
     );
   }
@@ -78,11 +116,15 @@ const ProjectDetailPage: React.FC = () => {
   if (!project) {
     return (
       <Layout>
-        <div className="text-center py-20">
-          <p className="text-4xl mb-3">🔍</p>
-          <p className="text-slate-400">Proyecto no encontrado</p>
-          <Link to="/projects" className="text-indigo-400 hover:text-indigo-300 text-sm mt-4 inline-block">
-            ← Volver a proyectos
+        <div className="premium-card premium-animate py-20 text-center">
+          <SearchX size={44} className="mx-auto mb-4 text-[#8a764e]" aria-hidden="true" />
+          <p className="text-sm font-medium text-graphite">Proyecto no encontrado</p>
+          <Link
+            to="/projects"
+            className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#17486a] hover:text-[#6f5526]"
+          >
+            <ArrowLeft size={16} aria-hidden="true" />
+            Volver a proyectos
           </Link>
         </div>
       </Layout>
@@ -91,115 +133,129 @@ const ProjectDetailPage: React.FC = () => {
 
   return (
     <Layout>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-        <Link to="/projects" className="hover:text-slate-300 transition-colors">Proyectos</Link>
+      <div className="premium-animate mb-6 flex items-center gap-2 text-sm font-medium text-graphite">
+        <Link to="/projects" className="inline-flex items-center gap-2 hover:text-ink">
+          <ArrowLeft size={16} aria-hidden="true" />
+          Proyectos
+        </Link>
         <span>/</span>
-        <span className="text-slate-300">{project.name}</span>
+        <span className="text-ink">{project.name}</span>
       </div>
 
-      {/* Project header */}
-      <div className="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-6 mb-6">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div className="premium-card premium-animate premium-delay-1 mb-6 p-6">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-bold text-white">{project.name}</h1>
-              <Badge variant={getStatusVariant(project.status)}>{project.status || 'Sin estado'}</Badge>
+            <div className="mb-3 flex flex-wrap items-center gap-3">
+              <h1 className="text-4xl font-extrabold tracking-tight text-ink">{project.name}</h1>
+              <Badge variant={getStatusVariant(project.status)}>{getStatusLabel(project.status)}</Badge>
             </div>
             {project.description && (
-              <p className="text-slate-400 text-sm max-w-2xl">{project.description}</p>
+              <p className="max-w-3xl text-sm leading-6 text-graphite">{project.description}</p>
             )}
           </div>
           {project.priority && (
             <Badge variant={getPriorityVariant(project.priority)} className="flex-shrink-0">
-              🎯 {project.priority}
+              <Target size={14} aria-hidden="true" />
+              {project.priority}
             </Badge>
           )}
         </div>
 
-        {/* Metadata grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-slate-700/50">
+        <div className="mt-6 grid grid-cols-2 gap-4 border-t border-stone-200 pt-6 sm:grid-cols-4">
           {[
-            { label: 'Líder', value: project.leaderName || '—' },
-            { label: 'Cliente', value: project.clientName || '—' },
-            { label: 'Inicio', value: project.startDate || '—' },
-            { label: 'Fin', value: project.endDate || '—' },
+            { label: 'Lider', value: project.leaderName || '-' },
+            { label: 'Cliente', value: project.clientName || '-' },
+            { label: 'Inicio', value: project.startDate || '-' },
+            { label: 'Fin', value: project.endDate || '-' },
           ].map((item) => (
             <div key={item.label}>
-              <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">{item.label}</p>
-              <p className="text-white text-sm font-medium">{item.value}</p>
+              <p className="mb-1 text-xs font-extrabold uppercase tracking-wide text-graphite">{item.label}</p>
+              <p className="text-sm font-bold text-ink">{item.value}</p>
             </div>
           ))}
           {project.budget != null && (
             <div className="col-span-2 sm:col-span-4">
-              <p className="text-slate-500 text-xs uppercase tracking-wider mb-1">Presupuesto</p>
-              <p className="text-white text-sm font-medium">${project.budget.toLocaleString()}</p>
+              <p className="mb-1 text-xs font-extrabold uppercase tracking-wide text-graphite">Presupuesto</p>
+              <p className="text-sm font-bold text-ink">${project.budget.toLocaleString()}</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Tasks section */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-white">
-          Tareas <span className="text-slate-500 font-normal text-sm">({tasks.length})</span>
+      <div className="premium-animate premium-delay-2 mb-4 flex items-center justify-between">
+        <h2 className="text-2xl font-extrabold text-ink">
+          Tareas <span className="text-base font-semibold text-graphite">({tasks.length})</span>
         </h2>
         <button
-          onClick={() => { setEditingTask(undefined); setIsTaskFormOpen(true); }}
+          onClick={() => {
+            setEditingTask(undefined);
+            setIsTaskFormOpen(true);
+          }}
           id="btn-new-task"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg"
+          className="premium-button-primary"
         >
-          + Nueva Tarea
+          <Plus size={18} aria-hidden="true" />
+          <span>Nueva Tarea</span>
         </button>
       </div>
 
-      {/* Kanban-style columns */}
       {tasks.length === 0 ? (
-        <div className="text-center py-16 bg-slate-900/40 rounded-2xl border border-slate-700/30">
-          <p className="text-4xl mb-3">✅</p>
-          <p className="text-slate-400">No hay tareas. ¡Crea la primera!</p>
+        <div className="premium-card premium-animate py-16 text-center">
+          <CheckCircle2 size={42} className="mx-auto mb-4 text-[#8a764e]" aria-hidden="true" />
+          <p className="text-sm font-medium text-graphite">No hay tareas. Crea la primera.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {(['PENDING', 'IN_PROGRESS', 'COMPLETED'] as const).map((status) => (
-            <div key={status} className="bg-slate-900/40 border border-slate-700/30 rounded-2xl p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <Badge variant={getStatusVariant(status)}>
-                  {getStatusLabel(status)}
-                </Badge>
-                <span className="text-slate-500 text-xs ml-auto">{tasksByStatus[status].length}</span>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {(['PENDING', 'IN_PROGRESS', 'COMPLETED'] as const).map((status, index) => (
+            <div
+              key={status}
+              className="premium-card premium-animate p-4"
+              style={{ animationDelay: `${180 + index * 70}ms` }}
+            >
+              <div className="mb-4 flex items-center gap-2">
+                <Badge variant={getStatusVariant(status)}>{getStatusLabel(status)}</Badge>
+                <span className="ml-auto text-xs font-bold text-graphite">{tasksByStatus[status].length}</span>
               </div>
               <div className="space-y-3">
                 {tasksByStatus[status].map((task) => (
                   <div
                     key={task.id}
-                    className="bg-slate-800/60 border border-slate-700/50 rounded-xl p-4 hover:border-slate-600 transition-colors"
+                    className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm hover:border-[#b5965b]/50 hover:shadow-soft"
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <p className="text-white text-sm font-medium leading-snug">{task.title}</p>
-                      <div className="flex gap-1 flex-shrink-0">
+                      <p className="text-sm font-extrabold leading-snug text-ink">{task.title}</p>
+                      <div className="flex flex-shrink-0 gap-1">
                         <button
-                          onClick={() => { setEditingTask(task); setIsTaskFormOpen(true); }}
-                          className="p-1 rounded text-slate-400 hover:text-amber-400 transition-colors"
+                          onClick={() => {
+                            setEditingTask(task);
+                            setIsTaskFormOpen(true);
+                          }}
+                          className="premium-icon-button h-8 w-8"
                           title="Editar"
                         >
-                          ✏️
+                          <Pencil size={15} aria-hidden="true" />
                         </button>
                         <button
-                          onClick={() => { setDeletingTaskId(task.id!); setIsDeleteOpen(true); }}
-                          className="p-1 rounded text-slate-400 hover:text-red-400 transition-colors"
+                          onClick={() => {
+                            setDeletingTaskId(task.id!);
+                            setIsDeleteOpen(true);
+                          }}
+                          className="premium-icon-button h-8 w-8 hover:border-red-200 hover:bg-red-50 hover:text-red-600"
                           title="Eliminar"
                         >
-                          🗑️
+                          <Trash2 size={15} aria-hidden="true" />
                         </button>
                       </div>
                     </div>
                     {task.description && (
-                      <p className="text-slate-500 text-xs mt-1 line-clamp-2">{task.description}</p>
+                      <p className="mt-2 line-clamp-2 text-xs leading-5 text-graphite">{task.description}</p>
                     )}
-                    <div className="flex items-center gap-2 mt-3">
+                    <div className="mt-3 flex items-center gap-2">
                       {task.assignedTo && (
-                        <span className="text-slate-400 text-xs">👤 {task.assignedTo}</span>
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-graphite">
+                          <UserRound size={14} aria-hidden="true" />
+                          {task.assignedTo}
+                        </span>
                       )}
                       {task.priority && (
                         <Badge variant={getPriorityVariant(task.priority)} className="ml-auto">
@@ -208,7 +264,10 @@ const ProjectDetailPage: React.FC = () => {
                       )}
                     </div>
                     {task.dueDate && (
-                      <p className="text-slate-500 text-xs mt-2">📅 Límite: {task.dueDate}</p>
+                      <p className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-graphite">
+                        <CalendarDays size={14} aria-hidden="true" />
+                        Limite: {task.dueDate}
+                      </p>
                     )}
                   </div>
                 ))}
@@ -218,7 +277,6 @@ const ProjectDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* Task Form Modal */}
       <Modal
         isOpen={isTaskFormOpen}
         onClose={() => setIsTaskFormOpen(false)}
@@ -232,12 +290,11 @@ const ProjectDetailPage: React.FC = () => {
         />
       </Modal>
 
-      {/* Delete confirmation */}
       <ConfirmDialog
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={handleDeleteTask}
-        message="¿Estás seguro de eliminar esta tarea? Esta acción no se puede deshacer."
+        message="Estas seguro de eliminar esta tarea? Esta accion no se puede deshacer."
         loading={deleteLoading}
       />
     </Layout>

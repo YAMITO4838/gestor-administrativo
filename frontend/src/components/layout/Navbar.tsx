@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  FolderKanban,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  UserRound,
+  UsersRound,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
 const Navbar: React.FC = () => {
@@ -13,96 +23,102 @@ const Navbar: React.FC = () => {
     navigate('/login');
   };
 
-  const navLinks = [
-    { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { to: '/projects', label: 'Proyectos', icon: '📁' },
-    { to: '/clients', label: 'Clientes', icon: '👥' },
+  const navLinks: { to: string; label: string; Icon: LucideIcon }[] = [
+    { to: '/dashboard', label: 'Panel', Icon: LayoutDashboard },
+    { to: '/projects', label: 'Proyectos', Icon: FolderKanban },
+    { to: '/clients', label: 'Clientes', Icon: UsersRound },
   ];
 
   return (
-    <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700 shadow-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+    <nav className="premium-nav sticky top-0 z-40">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-sm">GA</span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#b5965b]/60 bg-[#29143d] shadow-soft">
+              <span className="text-sm font-extrabold text-[#d9bd78]">GA</span>
             </div>
-            <span className="text-white font-bold text-lg tracking-tight hidden sm:block">
+            <span className="hidden text-lg font-extrabold tracking-tight text-ink sm:block">
               Gestor Administrativo
             </span>
           </div>
 
-          {/* Nav links desktop */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  location.pathname.startsWith(link.to)
-                    ? 'bg-indigo-600 text-white shadow-md'
-                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                }`}
-              >
-                <span>{link.icon}</span>
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden items-center gap-1 md:flex">
+            {navLinks.map(({ to, label, Icon }) => {
+              const active = location.pathname.startsWith(to);
+
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold ${
+                    active
+                      ? 'border border-[#b5965b]/60 bg-[#f7f0df] text-[#6f5526] shadow-sm'
+                      : 'text-graphite hover:bg-stone-100 hover:text-ink'
+                  }`}
+                >
+                  <Icon size={18} strokeWidth={1.9} aria-hidden="true" />
+                  {label}
+                </Link>
+              );
+            })}
           </div>
 
-          {/* User info + logout */}
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex flex-col items-end">
-              <span className="text-white text-sm font-semibold">{user?.username}</span>
-              <span className="text-indigo-400 text-xs">{user?.role}</span>
+            <div className="hidden flex-col items-end sm:flex">
+              <span className="text-sm font-bold text-ink">{user?.username}</span>
+              <span className="text-xs font-medium uppercase tracking-wide text-graphite">{user?.role}</span>
             </div>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
-              <span className="text-white font-bold text-sm uppercase">
-                {user?.username?.charAt(0) || 'U'}
-              </span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#b5965b]/50 bg-white shadow-sm">
+              {user?.username ? (
+                <span className="text-sm font-extrabold uppercase text-[#6f5526]">
+                  {user.username.charAt(0)}
+                </span>
+              ) : (
+                <UserRound size={18} className="text-[#6f5526]" aria-hidden="true" />
+              )}
             </div>
-            <button
-              onClick={handleLogout}
-              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-red-600 hover:text-white transition-all duration-200"
-            >
-              <span>🚪</span>
+            <button onClick={handleLogout} className="premium-button-secondary hidden px-3 py-2 sm:flex">
+              <LogOut size={17} aria-hidden="true" />
               Salir
             </button>
 
-            {/* Mobile menu button */}
             <button
-              className="md:hidden text-slate-300 hover:text-white p-2"
+              className="premium-icon-button md:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Cerrar menu' : 'Abrir menu'}
             >
-              ☰
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden pb-4 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMenuOpen(false)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  location.pathname.startsWith(link.to)
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-slate-300 hover:bg-slate-700 hover:text-white'
-                }`}
-              >
-                <span>{link.icon}</span>
-                {link.label}
-              </Link>
-            ))}
+          <div className="space-y-1 border-t border-stone-200 py-4 md:hidden">
+            {navLinks.map(({ to, label, Icon }) => {
+              const active = location.pathname.startsWith(to);
+
+              return (
+                <Link
+                  key={to}
+                  to={to}
+                  onClick={() => setMenuOpen(false)}
+                  className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold ${
+                    active
+                      ? 'bg-[#f7f0df] text-[#6f5526]'
+                      : 'text-graphite hover:bg-stone-100 hover:text-ink'
+                  }`}
+                >
+                  <Icon size={18} aria-hidden="true" />
+                  {label}
+                </Link>
+              );
+            })}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-red-400 hover:bg-red-600 hover:text-white transition-all"
+              className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
             >
-              🚪 Cerrar sesión
+              <LogOut size={18} aria-hidden="true" />
+              Cerrar sesion
             </button>
           </div>
         )}

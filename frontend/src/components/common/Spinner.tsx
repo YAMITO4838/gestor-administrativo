@@ -9,7 +9,7 @@ const sizeMap = { sm: 'h-5 w-5', md: 'h-8 w-8', lg: 'h-12 w-12' };
 
 const Spinner: React.FC<SpinnerProps> = ({ size = 'md', className = '' }) => (
   <div
-    className={`animate-spin rounded-full border-2 border-slate-600 border-t-indigo-500 ${sizeMap[size]} ${className}`}
+    className={`animate-spin rounded-full border-2 border-stone-200 border-t-[#b5965b] ${sizeMap[size]} ${className}`}
   />
 );
 

@@ -1,35 +1,23 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import type { AuthResponse } from '../types';
+import { AuthContext } from './authContextValue';
 
-interface AuthContextType {
-  user: AuthResponse | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  login: (data: AuthResponse) => void;
-  logout: () => void;
-}
+const getStoredUser = (): AuthResponse | null => {
+  const savedUser = localStorage.getItem('user');
+  if (!savedUser) return null;
 
-export const AuthContext = createContext<AuthContextType>({
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  login: () => {},
-  logout: () => {},
-});
+  try {
+    return JSON.parse(savedUser) as AuthResponse;
+  } catch {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    return null;
+  }
+};
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<AuthResponse | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-
-  // Restaurar sesión desde localStorage al cargar la app
-  useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
+  const [user, setUser] = useState<AuthResponse | null>(() => getStoredUser());
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
 
   const login = useCallback((data: AuthResponse) => {
     localStorage.setItem('token', data.token);
